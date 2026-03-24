@@ -6,23 +6,15 @@ import './Chat.css';
 import Mesagess from './Mesagess';
 import Input from './Input';
 
-
 const Chat = () => {
   return (
     <div className='chat'>
       <div className="chatinfo">
         <span>jane</span>
-        <div className="chaticons">
-          {/* <img src={vediocall} alt="" />
-           <img src={addfrd} alt="" />
-            <img src={more} alt="" /> */}
-        </div>
-        <Mesagess />
-        <Input />
+        <div className="chaticons"></div>
       </div>
-
-
-      
+      <Mesagess />
+      <Input />
     </div>
   )
 }

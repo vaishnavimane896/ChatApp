@@ -9,7 +9,7 @@ const Input = () => {
         <input type="text" placeholder='type something' />
         <div className='send'>
             {/* <img src={attach} alt='' /> */}
-            <input type='file' style={{display:none}} id='file' />
+            <input type='file' style={{display:"none"}} id='file' />
             <label htmlFor='file'>
                 {/* <img src={imageee} alt='' /> */}
             </label>

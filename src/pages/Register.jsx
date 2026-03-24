@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Register.css';
+import { db } from '../Firebase'
 // import Add from "../img/gallary.png";
 import{createUserWithEmailAndPassword} from "firebase/auth"
 import { auth } from '../Firebase';
@@ -10,33 +11,28 @@ import { Navigate } from 'react-router-dom';
 const Register = () => {
    const [err,setErr]  = useState(false)
    const navigate = useNavigate() 
-
-  const handleSubmit = async (e)=>{
+const handleSubmit = async (e) => {
     e.preventDefault()
-    const displayName = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-    const file= e.target[3].files[0];
+    const displayName = e.target[0].value
+    const email = e.target[1].value
+    const password = e.target[2].value
 
-    try{
-   
-     const res =  await createUserWithEmailAndPassword(auth, email, password);
-    }catch(err){
-      setErr(true);
+    try {
+        const res = await createUserWithEmailAndPassword(auth, email, password)
 
+         scope
+        await setDoc(doc(db, "users", res.user.uid), {
+            uid: res.user.uid,
+            displayName,
+            email,
+        })
+        await setDoc(doc(db, "userchat", res.user.uid), {})
+        navigate("/")
+
+    } catch(err) {
+        setErr(true)
     }
-
-    await setDoc(doc(db,"users",res.user.uid),{
-      uid:res.user.uid,
-      displayName,
-      email,
-    })
-
-    await setDoc(doc(db,"userchat",res.user.uid) , {})
-    navigate ("/")
-
-
-  }
+}
 
 
   return (

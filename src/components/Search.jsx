@@ -34,10 +34,10 @@ querySnapshot.forEach((doc) => {
   return (
     <div className=''>
       <div className="searchform">
-        <input type="text" placeholder='find the user' onKeyDown={handleKey} onChange={err=>setUsername(err.target.value)} />
+        <input type="text" placeholder='find the user' onKeyDown={handleKey} onChange={e=>setUsername(e.target.value)} />
       </div>
       {err && <span>user not found</span>}
-     {user &&  <div className="userchat" onClick={handlrSelect}>
+     {user &&  <div className="userchat" onClick={handleSelect}>
         <img src={user.phurl} alt='' />
         <div className="userchatinfo">
           <span>{user.displayName}</span>

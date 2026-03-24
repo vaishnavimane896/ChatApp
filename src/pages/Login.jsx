@@ -1,64 +1,44 @@
-import React from 'react'
-import { useState } from 'react';
-import Add from "../img/gallary.png";
-import {  signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate,Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../Firebase';
-
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
+  const [err, setErr] = useState(false)
+  const navigate = useNavigate()
+  const { currentUser } = useContext(AuthContext)
 
-const [err,setErr]  = useState(false)
-   const navigate = useNavigate() 
-
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
-   
-    const email = e.target[0].value;
-    const password = e.target[1 ].value;
-    
-
-    try{
-      signInWithEmailAndPassword(auth, email, password)
+  useEffect(() => {
+    if (currentUser) {
       navigate("/")
-   
-     const res =  await createUserWithEmailAndPassword(auth, email, password);
-    }catch(err){
-      setErr(true);
-
     }
+  }, [currentUser])
 
-    await setDoc(doc(db,"users",res.user.uid),{
-      uid:res.user.uid,
-      displayName,
-      email,
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const email = e.target[0].value
+    const password = e.target[1].value
 
-    await setDoc(doc(db,"userchat",res.user.uid) , {})
-    navigate ("/")
-
-
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+    } catch(err) {
+      setErr(true)
+    }
   }
 
-
-
-
   return (
-    <div  className='fromcontainer'>
-
-        <div className='fromwrapper'>
-            <span className='logo' >ChatApp</span>
-            
-            <form onSubmit={handleSubmit}>
-                
-                 <input type='email' placeholder='email here' />
-                  <input type='password' placeholder='password' />
-                  
-                   <button>Sign in</button>
-                   {err && <span>Something went wrong</span>}
-            </form>
-            <p>Lorem ipsum dolor sit amet. <Link to ="register">Register</Link></p>
-        </div>
+    <div className='fromcontainer'>
+      <div className='fromwrapper'>
+        <span className='logo'>ChatApp</span>
+        <form onSubmit={handleSubmit}>
+          <input type='email' placeholder='email here' />
+          <input type='password' placeholder='password' />
+          <button>Sign in</button>
+          {err && <span>Something went wrong</span>}
+        </form>
+        <p>Dont have an account? <Link to="/register">Register</Link></p>
+      </div>
     </div>
   )
 }
